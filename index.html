@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Pranav Gupta Dispatch</title>
+  <meta name="description" content="The Pranav Gupta Dispatch — occasional writing on data, models and the work of a data scientist." />
+  <style>
+    :root {
+      --paper: #f4f1ea;
+      --ink: #1c1a17;
+      --muted: #6f6a60;
+      --accent: #7c2128;     /* oxblood */
+      --rule: #cdc7b8;
+      --maxw: 660px;
+    }
+
+    :root[data-theme="dark"] {
+      --paper: #15140f;
+      --ink: #ece7da;
+      --muted: #9a9384;
+      --accent: #c87a7f;
+      --rule: #3a362d;
+    }
+
+    * { box-sizing: border-box; }
+    html { -webkit-font-smoothing: antialiased; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Georgia, "Iowan Old Style", "Times New Roman", Times, serif;
+      line-height: 1.65;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      width: 100%;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 56px 28px 48px;
+      flex: 1;
+    }
+
+    /* ---------- Theme toggle ---------- */
+    .theme-toggle {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--rule);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 1rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+      z-index: 10;
+    }
+    .theme-toggle:hover { border-color: var(--accent); transform: rotate(-12deg); }
+
+    /* ---------- Masthead ---------- */
+    .masthead {
+      text-align: center;
+      border-top: 3px double var(--ink);
+      border-bottom: 3px double var(--ink);
+      padding: 22px 0 18px;
+      margin-bottom: 14px;
+    }
+
+    .masthead .kicker {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 8px;
+    }
+
+    .masthead h1 {
+      font-size: clamp(2rem, 7vw, 3rem);
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.05;
+    }
+
+    .masthead .tagline {
+      font-style: italic;
+      color: var(--muted);
+      margin: 10px 0 0;
+      font-size: 1.02rem;
+    }
+
+    .dateline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 10px;
+      margin-bottom: 40px;
+    }
+
+    /* ---------- Lead / bio ---------- */
+    .lead { margin-bottom: 48px; }
+
+    .lead p {
+      margin: 0;
+      font-size: 1.12rem;
+    }
+
+    .lead p::first-letter {
+      float: left;
+      font-size: 3.4rem;
+      line-height: 0.78;
+      padding: 6px 10px 0 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ---------- Section headings ---------- */
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 22px;
+    }
+
+    .section-head h2 {
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    .section-head::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    section { margin-bottom: 48px; }
+
+    /* ---------- Dispatches (blog) ---------- */
+    .posts { display: grid; gap: 0; }
+
+    .post {
+      display: block;
+      text-decoration: none;
+      color: var(--ink);
+      padding: 22px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .post:first-child { padding-top: 0; }
+
+    .post-title {
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin: 0 0 6px;
+      line-height: 1.25;
+    }
+    .post:hover .post-title { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+    .post-meta {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 8px;
+    }
+
+    .post-excerpt {
+      color: var(--muted);
+      font-size: 1rem;
+      margin: 0;
+      font-style: italic;
+    }
+
+    /* ---------- Correspondence (links) ---------- */
+    .links { display: grid; gap: 0; }
+
+    .link-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+      padding: 12px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .link-row:hover .label { color: var(--accent); }
+
+    .link-row .label {
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .link-row .handle { color: var(--muted); font-size: 0.95rem; font-style: italic; }
+
+    /* ---------- Footer ---------- */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 26px;
+      border-top: 3px double var(--ink);
+    }
+    footer .printed { font-style: italic; text-transform: none; letter-spacing: 0; margin-top: 6px; }
+
+    @media (max-width: 480px) {
+      main { padding-top: 36px; }
+      .dateline { flex-direction: column; gap: 4px; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light or dark mode" title="Toggle light/dark">🌙</button>
+
+  <main>
+    <header class="masthead">
+      <h1>Pranav Gupta</h1>
+      <p class="tagline">"Just a curious guy."</p>
+    </header>
+
+    <div class="dateline">
+      <span id="dateline-left">Gurugram, Haryana</span>
+    </div>
+
+    <section class="lead">
+      <p>
+        I like building and figuring out stuff.
+        I write here to share what I learn along the way.
+      </p>
+    </section>
+
+    <section>
+      <div class="section-head"><h2>Latest Dispatches</h2></div>
+      <div class="posts">
+        <!-- Duplicate a .post block for each new article. Point href at your post. -->
+        <a class="post" href="https://evergreen-learning-5e5.notion.site/Language-Models-Are-Not-Black-Boxes-You-Just-Have-Not-Looked-Inside-Yet-38acb2d4f8b480558359fd9b6ad9b397" target="_blank" rel="noopener">
+          <p class="post-meta">Deep Learning · 7 min</p>
+          <h3 class="post-title">Language Models Are Not Black Boxes &mdash; You Just Haven't Looked Inside Yet</h3>
+          <p class="post-excerpt">A guided tour of what is actually happening beneath the hood of a modern language model.</p>
+        </a>
+        <a class="post" href="https://evergreen-learning-5e5.notion.site/Vanishing-and-Exploding-Gradients-Problem-in-Deep-Learning-2eccb2d4f8b480f8b88cf9039e4b4e44" target="_blank" rel="noopener">
+          <p class="post-meta">Deep Learning · 6 min</p>
+          <h3 class="post-title">Vanishing and Exploding Gradients in Deep Learning</h3>
+          <p class="post-excerpt">Why deep networks once refused to train &mdash; and the elegant tricks that fixed them.</p>
+        </a>
+        <a class="post" href="https://evergreen-learning-5e5.notion.site/Beyond-Accuracy-Understanding-Precision-Recall-and-F1-Score-37bcb2d4f8b480de82acf71f591011c3" target="_blank" rel="noopener">
+          <p class="post-meta">Metrics · 5 min</p>
+          <h3 class="post-title">Beyond Accuracy: Understanding Precision, Recall and F1-Score</h3>
+          <p class="post-excerpt">A single number rarely tells the whole story. Here is how to read the others.</p>
+        </a>
+        <a class="post" href="https://evergreen-learning-5e5.notion.site/Decision-Trees-and-Random-Forest-explained-intuitively-37ecb2d4f8b480e8a171d0477abe9ca4" target="_blank" rel="noopener">
+          <p class="post-meta">Models · 6 min</p>
+          <h3 class="post-title">Decision Trees and Random Forests, Explained Intuitively</h3>
+          <p class="post-excerpt">From a single splitting question to a whole forest of them, voting in concert.</p>
+        </a>
+        <a class="post" href="https://evergreen-learning-5e5.notion.site/How-Gradient-Boosting-Learns-from-Mistakes-380cb2d4f8b48067a684e86bab66f111" target="_blank" rel="noopener">
+          <p class="post-meta">Models · 6 min</p>
+          <h3 class="post-title">How Gradient Boosting Learns From Its Mistakes</h3>
+          <p class="post-excerpt">An ensemble that improves by paying close attention to where it went wrong.</p>
+        </a>
+        <a class="post" href="https://evergreen-learning-5e5.notion.site/Understanding-Recurrent-Neural-Networks-385cb2d4f8b480f9b069cf9f946f8999" target="_blank" rel="noopener">
+          <p class="post-meta">Deep Learning · 5 min</p>
+          <h3 class="post-title">Understanding Recurrent Neural Networks</h3>
+          <p class="post-excerpt">How a network learns to remember &mdash; and why sequence is everything.</p>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head"><h2>Correspondence</h2></div>
+      <div class="links">
+        <a class="link-row" href="mailto:pranavgupta010108@gmail.com">
+          <span class="label">Email</span>
+          <span class="handle">pranavgupta010108@gmail.com</span>
+        </a>
+        <a class="link-row" href="https://github.com/sabertooth-123" target="_blank" rel="noopener">
+          <span class="label">On GitHub</span>
+          <span class="handle">@sabertooth-123</span>
+        </a>
+        <a class="link-row" href="https://www.linkedin.com/in/pranav-gupta-a59055370/" target="_blank" rel="noopener">
+          <span class="label">On LinkedIn</span>
+          <span class="handle">in/pranav-gupta</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Pranav Gupta
+    <div class="printed">More posts whenever curiosity strikes.</div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById("theme-toggle");
+      var saved = localStorage.getItem("theme");
+      var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var theme = saved || (prefersDark ? "dark" : "light");
+
+      function apply(t) {
+        root.setAttribute("data-theme", t);
+        btn.textContent = t === "dark" ? "☀️" : "🌙";
+      }
+      apply(theme);
+
+      btn.addEventListener("click", function () {
+        theme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        localStorage.setItem("theme", theme);
+        apply(theme);
+      });
+    })();
+  </script>
+</body>
+</html>
