@@ -1,381 +1,400 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Pranav Gupta Dispatch</title>
-  <meta name="description" content="The Pranav Gupta Dispatch — occasional writing on data, models and the work of a data scientist." />
+  <title>Pranav Gupta</title>
+  <meta name="description" content="Pranav Gupta — machine learning, LLMs, and the systems around them." />
   <style>
     :root {
-      --paper: #f4f1ea;
-      --ink: #1c1a17;
-      --muted: #6f6a60;
-      --accent: #7c2128;     /* oxblood */
-      --rule: #cdc7b8;
-      --maxw: 660px;
-    }
-
-    :root[data-theme="dark"] {
-      --paper: #15140f;
-      --ink: #ece7da;
-      --muted: #9a9384;
-      --accent: #c87a7f;
-      --rule: #3a362d;
+      --bg: #0a0a0b;
+      --fg: #e4e4e7;
+      --fg-strong: #fafafa;
+      --muted: #8a8a92;
+      --faint: #5a5a62;
+      --rule: #1c1c20;
+      --rule-strong: #2a2a30;
+      --hover: #ffffff;
+      --maxw: 720px;
+      --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
     * { box-sizing: border-box; }
-    html { -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
     body {
       margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: Georgia, "Iowan Old Style", "Times New Roman", Times, serif;
-      line-height: 1.65;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
     }
 
-    main {
-      width: 100%;
+    a { color: inherit; text-decoration: none; }
+
+    /* ---------- Nav ---------- */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-inner {
       max-width: var(--maxw);
       margin: 0 auto;
-      padding: 56px 28px 48px;
-      flex: 1;
-    }
-
-    /* ---------- Theme toggle ---------- */
-    .theme-toggle {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: 1px solid var(--rule);
-      background: var(--paper);
-      color: var(--ink);
-      font-size: 1rem;
-      line-height: 1;
-      cursor: pointer;
+      padding: 18px 24px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      transition: border-color 0.15s ease, transform 0.15s ease;
-      z-index: 10;
-    }
-    .theme-toggle:hover { border-color: var(--accent); transform: rotate(-12deg); }
-
-    /* ---------- Masthead ---------- */
-    .masthead {
-      text-align: center;
-      border-top: 3px double var(--ink);
-      border-bottom: 3px double var(--ink);
-      padding: 22px 0 18px;
-      margin-bottom: 14px;
-    }
-
-    .masthead .kicker {
-      font-size: 0.7rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 0 0 8px;
-    }
-
-    .masthead h1 {
-      font-size: clamp(2rem, 7vw, 3rem);
-      margin: 0;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      line-height: 1.05;
-    }
-
-    .masthead .tagline {
-      font-style: italic;
-      color: var(--muted);
-      margin: 10px 0 0;
-      font-size: 1.02rem;
-    }
-
-    .dateline {
-      display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+      gap: 16px;
+    }
+    .nav-name { font-weight: 600; color: var(--fg-strong); font-size: 14px; }
+    .nav-links { display: flex; gap: 22px; }
+    .nav-links a {
       color: var(--muted);
-      border-bottom: 1px solid var(--rule);
-      padding-bottom: 10px;
-      margin-bottom: 40px;
+      font-size: 14px;
+      transition: color 0.15s ease;
+    }
+    .nav-links a:hover { color: var(--hover); }
+
+    main {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 56px 24px 80px;
     }
 
-    /* ---------- Lead / bio ---------- */
-    .lead { margin-bottom: 48px; }
-
-    .lead p {
+    /* ---------- Hero ---------- */
+    .hero { margin-bottom: 56px; }
+    .hero h1 {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--fg-strong);
+      margin: 0 0 4px;
+    }
+    .hero .tagline {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0 0 24px;
+    }
+    .hero .bio {
+      color: var(--fg);
+      font-size: 15px;
+      max-width: 60ch;
       margin: 0;
-      font-size: 1.12rem;
     }
+    .hero .bio strong { color: var(--fg-strong); font-weight: 600; }
 
-    .lead p::first-letter {
-      float: left;
-      font-size: 3.4rem;
-      line-height: 0.78;
-      padding: 6px 10px 0 0;
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    /* ---------- Section headings ---------- */
+    /* ---------- Section ---------- */
+    section { margin-bottom: 48px; scroll-margin-top: 72px; }
     .section-head {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin: 0 0 22px;
-    }
-
-    .section-head h2 {
-      font-size: 0.78rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin: 0;
-      white-space: nowrap;
-      font-weight: 700;
-    }
-
-    .section-head::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--rule);
-    }
-
-    section { margin-bottom: 48px; }
-
-    /* ---------- Dispatches (blog) ---------- */
-    .posts { display: grid; gap: 0; }
-
-    .post {
-      display: block;
-      text-decoration: none;
-      color: var(--ink);
-      padding: 22px 0;
-      border-bottom: 1px solid var(--rule);
-    }
-    .post:first-child { padding-top: 0; }
-
-    .post-title {
-      font-weight: 700;
-      font-size: 1.3rem;
-      margin: 0 0 6px;
-      line-height: 1.25;
-    }
-    .post:hover .post-title { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
-
-    .post-meta {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 0 0 8px;
-    }
-
-    .post-excerpt {
-      color: var(--muted);
-      font-size: 1rem;
-      margin: 0;
-      font-style: italic;
-    }
-
-    /* ---------- Correspondence (links) ---------- */
-    .links { display: grid; gap: 0; }
-
-    .link-row {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--ink);
-      padding: 12px 0;
-      border-bottom: 1px solid var(--rule);
+      margin-bottom: 8px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--rule-strong);
     }
-    .link-row:hover .label { color: var(--accent); }
+    .section-head h2 {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      margin: 0;
+      letter-spacing: 0.01em;
+    }
+    .section-head .more {
+      font-size: 12px;
+      color: var(--faint);
+      font-family: var(--mono);
+      transition: color 0.15s ease;
+    }
+    .section-head .more:hover { color: var(--hover); }
 
-    .link-row .label {
-      font-weight: 700;
-      letter-spacing: 0.04em;
+    /* ---------- Contributions ---------- */
+    .contrib { margin-bottom: 48px; }
+    .contrib-graph {
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      background: #0c0c0e;
     }
-    .link-row .handle { color: var(--muted); font-size: 0.95rem; font-style: italic; }
+    .contrib-graph img { display: block; width: 100%; min-width: 560px; filter: saturate(0.6) brightness(0.95); }
+
+    /* ---------- Rows ---------- */
+    .rows { display: flex; flex-direction: column; }
+    .row {
+      display: grid;
+      grid-template-columns: 52px 22px 1fr auto 16px;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 4px;
+      border-bottom: 1px solid var(--rule);
+      transition: background 0.15s ease;
+    }
+    .row:hover { background: #111114; }
+    .row .year {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--faint);
+    }
+    .row .icon {
+      width: 18px; height: 18px;
+      color: var(--faint);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .row .icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+    .row .main-col { min-width: 0; }
+    .row .title {
+      color: var(--fg-strong);
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.15s ease;
+    }
+    .row:hover .title { color: var(--hover); }
+    .row .sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+    .row .right {
+      text-align: right;
+      color: var(--muted);
+      font-size: 13px;
+      font-family: var(--mono);
+      white-space: nowrap;
+    }
+    .row .arrow { color: var(--faint); font-size: 12px; transition: color 0.15s ease, transform 0.15s ease; }
+    .row:hover .arrow { color: var(--hover); transform: translate(2px, -2px); }
+
+    /* writing rows have no year column */
+    .row.post { grid-template-columns: 22px 1fr auto 16px; }
 
     /* ---------- Footer ---------- */
     footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 26px;
-      border-top: 3px double var(--ink);
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 28px 24px 48px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-    footer .printed { font-style: italic; text-transform: none; letter-spacing: 0; margin-top: 6px; }
+    .foot-links { display: flex; gap: 22px; }
+    .foot-links a { color: var(--muted); font-size: 14px; transition: color 0.15s ease; }
+    .foot-links a:hover { color: var(--hover); }
+    .foot-copy { color: var(--faint); font-size: 13px; font-family: var(--mono); }
 
-    @media (max-width: 480px) {
-      main { padding-top: 36px; }
-      .dateline { flex-direction: column; gap: 4px; align-items: center; }
+    @media (max-width: 560px) {
+      .nav-links { gap: 16px; }
+      .nav-links a:nth-child(n+4) { display: none; }
+      .row { grid-template-columns: 44px 20px 1fr auto 14px; gap: 10px; }
+      .row .right { font-size: 12px; }
     }
   </style>
 </head>
 <body>
-  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light or dark mode" title="Toggle light/dark">🌙</button>
+  <nav>
+    <div class="nav-inner">
+      <a href="#top" class="nav-name">Pranav Gupta</a>
+      <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#opensource">Open Source</a>
+        <a href="#writing">Writing</a>
+        <a href="#contact">Contact</a>
+        <a href="Pranav_Gupta_Resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </div>
+    </div>
+  </nav>
 
-  <main>
-    <header class="masthead">
+  <main id="top">
+    <!-- ---------- Hero ---------- -->
+    <header class="hero">
       <h1>Pranav Gupta</h1>
-      <p class="tagline">"Just a curious guy."</p>
+      <p class="tagline">Machine learning, LLMs, systems</p>
+      <p class="bio">
+        Engineering undergraduate at <strong>IIT Roorkee</strong>. I build and break things across
+        ML and systems &mdash; fine-tuning small models, instrumenting <strong>transformers</strong>,
+        and writing about how they actually work underneath. What holds my attention is the layer
+        people skip: what a model is really doing, and why.
+      </p>
     </header>
 
-    <div class="dateline">
-      <span id="dateline-left">Gurugram, Haryana</span>
+    <!-- ---------- Contributions ---------- -->
+    <div class="contrib">
+      <div class="section-head"><h2>Contributions</h2><a class="more" href="https://github.com/sabertooth-123" target="_blank" rel="noopener">GitHub →</a></div>
+      <div class="contrib-graph">
+        <img src="https://ghchart.rshah.org/6e6e76/sabertooth-123" alt="Pranav Gupta's GitHub contribution graph" loading="lazy" />
+      </div>
     </div>
 
-    <section class="lead">
-      <p>
-        I like building and figuring out stuff.
-        I write here to share what I learn along the way.
-      </p>
+    <!-- ---------- Featured work ---------- -->
+    <section id="projects">
+      <div class="section-head"><h2>Featured work</h2><a class="more" href="https://github.com/sabertooth-123?tab=repositories" target="_blank" rel="noopener">All repos →</a></div>
+      <div class="rows">
+        <a class="row" href="https://github.com/sabertooth-123/RelayLLM" target="_blank" rel="noopener">
+          <span class="year">2026</span>
+          <span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/></svg></span>
+          <span class="main-col"><div class="title">RelayLLM</div><div class="sub">Distributed LLM job queue, built in Rust.</div></span>
+          <span class="right">Rust</span>
+          <span class="arrow">↗</span>
+        </a>
+        <a class="row" href="https://github.com/sabertooth-123/llm_instrumentation_tracing_replay" target="_blank" rel="noopener">
+          <span class="year">2026</span>
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></span>
+          <span class="main-col"><div class="title">LLM Instrumentation</div><div class="sub">Non-invasive telemetry &amp; replay for local transformers.</div></span>
+          <span class="right">Python</span>
+          <span class="arrow">↗</span>
+        </a>
+        <a class="row" href="https://github.com/sabertooth-123/Faithfulness_in_CoT_Reasoning" target="_blank" rel="noopener">
+          <span class="year">2026</span>
+          <span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
+          <span class="main-col"><div class="title">CoT Faithfulness</div><div class="sub">Replicating Anthropic's faithfulness-of-reasoning paper.</div></span>
+          <span class="right">Python</span>
+          <span class="arrow">↗</span>
+        </a>
+        <a class="row" href="https://github.com/sabertooth-123/ml_mentor_qlora" target="_blank" rel="noopener">
+          <span class="year">2026</span>
+          <span class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></span>
+          <span class="main-col"><div class="title">ML Mentor (QLoRA)</div><div class="sub">QLoRA fine-tune of Qwen2.5-3B into a teaching model.</div></span>
+          <span class="right">Python</span>
+          <span class="arrow">↗</span>
+        </a>
+        <a class="row" href="https://github.com/sabertooth-123/RAG_yt_chatbot" target="_blank" rel="noopener">
+          <span class="year">2025</span>
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M4 6h16v10H4z"/><path d="M10 9l5 2-5 2z"/></svg></span>
+          <span class="main-col"><div class="title">YouTube Q&amp;A Bot</div><div class="sub">Retrieval-grounded bot that refuses to guess.</div></span>
+          <span class="right">Python</span>
+          <span class="arrow">↗</span>
+        </a>
+        <a class="row" href="https://github.com/sabertooth-123/viz_stimulus_inspector" target="_blank" rel="noopener">
+          <span class="year">2025</span>
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <span class="main-col"><div class="title">Viz Stimulus Inspector</div><div class="sub">Detecting confounds in visualization stimuli.</div></span>
+          <span class="right">Python</span>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
     </section>
 
-    <section>
+    <!-- ---------- Open Source ---------- -->
+    <section id="opensource">
+      <div class="section-head"><h2>Open source</h2></div>
+      <div class="rows">
+        <a class="row post" href="https://github.com/layer5io/recognition/pull/140" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M6 9v6M6 18h7a4 4 0 0 0 4-4V9"/><circle cx="18" cy="6" r="2.5"/></svg></span>
+          <span class="main-col"><div class="title">Add a Consistent Catalog Designer badge</div><div class="sub">layer5io/recognition · merged</div></span>
+          <span class="right">PR #140</span>
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ---------- Writing ---------- -->
+    <section id="writing">
       <div class="section-head"><h2>Writing</h2></div>
-      <div class="posts">
-        <!-- Personal essays & project logs. Duplicate a .post block to add one. -->
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/I-Fine-Tuned-a-3B-Model-to-Teach-ML-It-Learned-to-Sound-Right-Not-Be-Right-3b8cb2d4f8b480d9b864e80619428354" target="_blank" rel="noopener">
-          <p class="post-meta">LLMs · 8 min</p>
-          <h3 class="post-title">I Fine-Tuned a 3B Model to Teach ML &mdash; It Learned to Sound Right, Not Be Right</h3>
-          <p class="post-excerpt">What a small fine-tuned model taught me about the gap between fluency and correctness.</p>
+      <div class="rows">
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/I-Fine-Tuned-a-3B-Model-to-Teach-ML-It-Learned-to-Sound-Right-Not-Be-Right-3b8cb2d4f8b480d9b864e80619428354" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">I Fine-Tuned a 3B Model to Teach ML — It Learned to Sound Right, Not Be Right</div></span>
+          <span class="right">LLMs · 8 min</span>
+          <span class="arrow">↗</span>
         </a>
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/I-tried-to-replicate-anthropic-s-paper-Measuring-Faithfulness-in-Chain-of-Thought-Reasoning-3c6cb2d4f8b480978c01e1baf837a49f" target="_blank" rel="noopener">
-          <p class="post-meta">Interpretability · 9 min</p>
-          <h3 class="post-title">Replicating Anthropic's &ldquo;Measuring Faithfulness in Chain-of-Thought Reasoning&rdquo;</h3>
-          <p class="post-excerpt">Do models actually reason the way they say they do? I tried to find out for myself.</p>
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/I-tried-to-replicate-anthropic-s-paper-Measuring-Faithfulness-in-Chain-of-Thought-Reasoning-3c6cb2d4f8b480978c01e1baf837a49f" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">Replicating Anthropic's "Measuring Faithfulness in Chain-of-Thought Reasoning"</div></span>
+          <span class="right">Interpretability · 9 min</span>
+          <span class="arrow">↗</span>
         </a>
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/Built-a-Youtube-Q-A-bot-that-refuses-to-Guess-3accb2d4f8b4805a89e3ee559101cc11" target="_blank" rel="noopener">
-          <p class="post-meta">RAG · 6 min</p>
-          <h3 class="post-title">I Built a YouTube Q&amp;A Bot That Refuses to Guess</h3>
-          <p class="post-excerpt">A retrieval-grounded bot that would rather say &ldquo;I don't know&rdquo; than make things up.</p>
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/Built-a-Youtube-Q-A-bot-that-refuses-to-Guess-3accb2d4f8b4805a89e3ee559101cc11" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">I Built a YouTube Q&amp;A Bot That Refuses to Guess</div></span>
+          <span class="right">RAG · 6 min</span>
+          <span class="arrow">↗</span>
         </a>
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/Two-Blind-Spots-Detecting-Confounds-in-Visualization-Stimuli-3dccb2d4f8b4804e80cfcf6957c0e999" target="_blank" rel="noopener">
-          <p class="post-meta">Visualization · 7 min</p>
-          <h3 class="post-title">Two Blind Spots: Detecting Confounds in Visualization Stimuli</h3>
-          <p class="post-excerpt">Where automated checks for confounded charts quietly fail &mdash; and why the failures don't overlap.</p>
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/Two-Blind-Spots-Detecting-Confounds-in-Visualization-Stimuli-3dccb2d4f8b4804e80cfcf6957c0e999" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">Two Blind Spots: Detecting Confounds in Visualization Stimuli</div></span>
+          <span class="right">Visualization · 7 min</span>
+          <span class="arrow">↗</span>
         </a>
       </div>
     </section>
 
-    <section>
+    <!-- ---------- Fundamentals ---------- -->
+    <section id="fundamentals">
       <div class="section-head"><h2>Fundamentals</h2></div>
-      <div class="posts">
-        <!-- Concept explainers. Duplicate a .post block to add one. -->
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/Language-Models-Are-Not-Black-Boxes-You-Just-Have-Not-Looked-Inside-Yet-38acb2d4f8b480558359fd9b6ad9b397" target="_blank" rel="noopener">
-          <p class="post-meta">Deep Learning · 7 min</p>
-          <h3 class="post-title">Language Models Are Not Black Boxes &mdash; You Just Haven't Looked Inside Yet</h3>
-          <p class="post-excerpt">A guided tour of what is actually happening beneath the hood of a modern language model.</p>
+      <div class="rows">
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/Language-Models-Are-Not-Black-Boxes-You-Just-Have-Not-Looked-Inside-Yet-38acb2d4f8b480558359fd9b6ad9b397" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">Language Models Are Not Black Boxes — You Just Haven't Looked Inside Yet</div></span>
+          <span class="right">Deep Learning · 7 min</span>
+          <span class="arrow">↗</span>
         </a>
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/Vanishing-and-Exploding-Gradients-Problem-in-Deep-Learning-2eccb2d4f8b480f8b88cf9039e4b4e44" target="_blank" rel="noopener">
-          <p class="post-meta">Deep Learning · 6 min</p>
-          <h3 class="post-title">Vanishing and Exploding Gradients in Deep Learning</h3>
-          <p class="post-excerpt">Why deep networks once refused to train &mdash; and the elegant tricks that fixed them.</p>
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/Vanishing-and-Exploding-Gradients-Problem-in-Deep-Learning-2eccb2d4f8b480f8b88cf9039e4b4e44" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">Vanishing and Exploding Gradients in Deep Learning</div></span>
+          <span class="right">Deep Learning · 6 min</span>
+          <span class="arrow">↗</span>
         </a>
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/Beyond-Accuracy-Understanding-Precision-Recall-and-F1-Score-37bcb2d4f8b480de82acf71f591011c3" target="_blank" rel="noopener">
-          <p class="post-meta">Metrics · 5 min</p>
-          <h3 class="post-title">Beyond Accuracy: Understanding Precision, Recall and F1-Score</h3>
-          <p class="post-excerpt">A single number rarely tells the whole story. Here is how to read the others.</p>
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/Beyond-Accuracy-Understanding-Precision-Recall-and-F1-Score-37bcb2d4f8b480de82acf71f591011c3" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">Beyond Accuracy: Understanding Precision, Recall and F1-Score</div></span>
+          <span class="right">Metrics · 5 min</span>
+          <span class="arrow">↗</span>
         </a>
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/Decision-Trees-and-Random-Forest-explained-intuitively-37ecb2d4f8b480e8a171d0477abe9ca4" target="_blank" rel="noopener">
-          <p class="post-meta">Models · 6 min</p>
-          <h3 class="post-title">Decision Trees and Random Forests, Explained Intuitively</h3>
-          <p class="post-excerpt">From a single splitting question to a whole forest of them, voting in concert.</p>
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/Decision-Trees-and-Random-Forest-explained-intuitively-37ecb2d4f8b480e8a171d0477abe9ca4" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">Decision Trees and Random Forests, Explained Intuitively</div></span>
+          <span class="right">Models · 6 min</span>
+          <span class="arrow">↗</span>
         </a>
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/How-Gradient-Boosting-Learns-from-Mistakes-380cb2d4f8b48067a684e86bab66f111" target="_blank" rel="noopener">
-          <p class="post-meta">Models · 6 min</p>
-          <h3 class="post-title">How Gradient Boosting Learns From Its Mistakes</h3>
-          <p class="post-excerpt">An ensemble that improves by paying close attention to where it went wrong.</p>
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/How-Gradient-Boosting-Learns-from-Mistakes-380cb2d4f8b48067a684e86bab66f111" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">How Gradient Boosting Learns From Its Mistakes</div></span>
+          <span class="right">Models · 6 min</span>
+          <span class="arrow">↗</span>
         </a>
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/Support-Vector-Machine-396cb2d4f8b480f88167c0a800e45227" target="_blank" rel="noopener">
-          <p class="post-meta">Models · 6 min</p>
-          <h3 class="post-title">Support Vector Machines, Explained</h3>
-          <p class="post-excerpt">Finding the widest possible margin between classes &mdash; and the maths that makes it work.</p>
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/Support-Vector-Machine-396cb2d4f8b480f88167c0a800e45227" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">Support Vector Machines, Explained</div></span>
+          <span class="right">Models · 6 min</span>
+          <span class="arrow">↗</span>
         </a>
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/Linear-Regression-Teaching-Machines-to-Predict-Numbers-39ecb2d4f8b480d7b11bec70359e19f7" target="_blank" rel="noopener">
-          <p class="post-meta">Models · 5 min</p>
-          <h3 class="post-title">Linear Regression: Teaching Machines to Predict Numbers</h3>
-          <p class="post-excerpt">The humble straight line that quietly underpins much of machine learning.</p>
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/Linear-Regression-Teaching-Machines-to-Predict-Numbers-39ecb2d4f8b480d7b11bec70359e19f7" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">Linear Regression: Teaching Machines to Predict Numbers</div></span>
+          <span class="right">Models · 5 min</span>
+          <span class="arrow">↗</span>
         </a>
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/Understanding-Recurrent-Neural-Networks-385cb2d4f8b480f9b069cf9f946f8999" target="_blank" rel="noopener">
-          <p class="post-meta">Deep Learning · 5 min</p>
-          <h3 class="post-title">Understanding Recurrent Neural Networks</h3>
-          <p class="post-excerpt">How a network learns to remember &mdash; and why sequence is everything.</p>
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/Understanding-Recurrent-Neural-Networks-385cb2d4f8b480f9b069cf9f946f8999" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">Understanding Recurrent Neural Networks</div></span>
+          <span class="right">Deep Learning · 5 min</span>
+          <span class="arrow">↗</span>
         </a>
-        <a class="post" href="https://evergreen-learning-5e5.notion.site/Convolution-Neural-Network-38fcb2d4f8b4802e84faef198917c40f" target="_blank" rel="noopener">
-          <p class="post-meta">Deep Learning · 6 min</p>
-          <h3 class="post-title">Understanding Convolutional Neural Networks</h3>
-          <p class="post-excerpt">How a network learns to see &mdash; filters, feature maps and the idea behind it all.</p>
-        </a>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-head"><h2>Correspondence</h2></div>
-      <div class="links">
-        <a class="link-row" href="mailto:pranavgupta010108@gmail.com">
-          <span class="label">Email</span>
-          <span class="handle">pranavgupta010108@gmail.com</span>
-        </a>
-        <a class="link-row" href="https://github.com/sabertooth-123" target="_blank" rel="noopener">
-          <span class="label">On GitHub</span>
-          <span class="handle">@sabertooth-123</span>
-        </a>
-        <a class="link-row" href="https://www.linkedin.com/in/pranav-gupta-a59055370/" target="_blank" rel="noopener">
-          <span class="label">On LinkedIn</span>
-          <span class="handle">in/pranav-gupta</span>
+        <a class="row post" href="https://evergreen-learning-5e5.notion.site/Convolution-Neural-Network-38fcb2d4f8b4802e84faef198917c40f" target="_blank" rel="noopener">
+          <span class="icon"><svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/></svg></span>
+          <span class="main-col"><div class="title">Understanding Convolutional Neural Networks</div></span>
+          <span class="right">Deep Learning · 6 min</span>
+          <span class="arrow">↗</span>
         </a>
       </div>
     </section>
   </main>
 
-  <footer>
-    © <span id="year"></span> Pranav Gupta
-    <div class="printed">More posts whenever curiosity strikes.</div>
+  <footer id="contact">
+    <div class="foot-links">
+      <a href="mailto:pranavgupta010108@gmail.com">Email</a>
+      <a href="https://github.com/sabertooth-123" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/pranav-gupta-a59055370/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div class="foot-copy">© <span id="year"></span> Pranav Gupta</div>
   </footer>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-
-    (function () {
-      var root = document.documentElement;
-      var btn = document.getElementById("theme-toggle");
-      var saved = localStorage.getItem("theme");
-      var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      var theme = saved || (prefersDark ? "dark" : "light");
-
-      function apply(t) {
-        root.setAttribute("data-theme", t);
-        btn.textContent = t === "dark" ? "☀️" : "🌙";
-      }
-      apply(theme);
-
-      btn.addEventListener("click", function () {
-        theme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-        localStorage.setItem("theme", theme);
-        apply(theme);
-      });
-    })();
   </script>
 </body>
 </html>
