@@ -120,9 +120,10 @@
       border-radius: 8px;
       padding: 18px 16px 10px;
       overflow-x: auto;
-      background: #fbfbfa;
+      background: #000;
     }
-    .contrib-graph img { display: block; width: 100%; min-width: 560px; }
+    /* invert flips the baked light empty-cells to dark; hue-rotate brings the greens back to green */
+    .contrib-graph img { display: block; width: 100%; min-width: 560px; filter: invert(1) hue-rotate(180deg); }
 
     /* ---------- Rows ---------- */
     .rows { display: flex; flex-direction: column; }
